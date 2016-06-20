@@ -112,52 +112,39 @@ This assignment will be graded via peer assessment.
 
 ### Testing my scripts
 
-```{r, echo=FALSE }
-makeCacheMatrix <- function(x = matrix()) {
-  inv <- NULL
-  set <- function(y) {
-    x <<- y
-    inv <<- NULL
-  }
-  get <- function() x
-  setInverse <- function(inverse) inv <<- inverse
-  getInverse <- function() inv
-  list(set = set,
-    get = get,
-    setInverse = setInverse,
-    getInverse = getInverse)
-}
-
-cacheSolve <- function(x, ...) {
-  ## Return a matrix that is the inverse of 'x'
-  inv <- x$getInverse()
-  if (!is.null(inv)) {
-    message("getting cached data")
-    return(inv)
-  }
-  mat <- x$get()
-  inv <- solve(mat, ...)
-  x$setInverse(inv)
-  inv
-}
-```
-
-
 ```{r}
 # create a *square* matrix using makeCacheMatrix()
 test <- makeCacheMatrix(matrix(c(1,5,10,100), 2, 2))
 
 summary(test)
+##            Length Class  Mode    
+## set        1      -none- function
+## get        1      -none- function
+## setInverse 1      -none- function
+## getInverse 1      -none- function
 
 test$get()
-    
+##      [,1] [,2]
+## [1,]    1   10
+## [2,]    5  100
+
 test$getInverse()
+## NULL
 
 cacheSolve(test)
+##      [,1]  [,2]
+## [1,]  2.0 -0.20
+## [2,] -0.1  0.02
 
 # the 2nd time we run the function,we get the cached value
 cacheSolve(test)
+## getting cached data
+##      [,1]  [,2]
+## [1,]  2.0 -0.20
+## [2,] -0.1  0.02
 
 test$getInverse()
-
+##      [,1]  [,2]
+## [1,]  2.0 -0.20
+## [2,] -0.1  0.02
 ```
